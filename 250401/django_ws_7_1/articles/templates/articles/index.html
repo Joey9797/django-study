@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<h1>나만의 SNS 서비스</h1>
+<p><a href="{% url "articles:create" %}">[ Create ]</a></p>
+<p><img src="{% static "articles/image-1.png" %}" alt="img"></p>
+{% for article in articles %}
+    <a href="{% url "articles:detail" article.pk %}">{{ article.title }}</a>
+    <p>{{ article.content}}</p>
+    <hr>
+{% endfor %}
+{% endblock content %}
