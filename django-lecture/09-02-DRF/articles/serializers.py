@@ -11,6 +11,11 @@ class ArticleListSerializer(serializers.ModelSerializer):
 
 # 게시글의 전체 필드를 직렬화 하는 클래스
 class ArticleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Article
+        fields = '__all__'
+
+
     # comment_set에 활용할 댓글 데이터를 가공하는 도구
     class CommentDetailSerializer(serializers.ModelSerializer):
         class Meta:
@@ -20,13 +25,10 @@ class ArticleSerializer(serializers.ModelSerializer):
 
     # 기존에 있던 역참조 매니저인 comment_set의 값을 덮어쓰기
     comment_set = CommentDetailSerializer(read_only=True, many=True)
+    
 
     # 새로운 필드 생성 (댓글 개수를 담기 위한 새로운 필드)
     num_of_comments = serializers.SerializerMethodField()
-
-    class Meta:
-        model = Article
-        fields = '__all__'
 
     # SerializerMethodField의 값을 채울 함수
     # 이 함수는 반드시 get_<SerializerMethodField의 필드이름>으로 맞춰줘야 자동으로 호출 됨
